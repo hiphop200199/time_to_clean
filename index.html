@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="general.js" defer></script>
+    <script src="item.js" defer></script>
+    <script src="round.js" defer></script>
+    <script src="main.js" defer></script>
+    <title>請幫我整理桌面</title>
+  </head>
+  <body>
+    <main>
+      <section id="entry">
+        <h1>請幫我整理桌面</h1>
+        <img src="image/laptop.png" alt="laptop" />
+        <button id="start">Start</button>
+      </section>
+      <section id="game">
+        <p id="time"></p>
+        <section id="items">
+          <section id="up">
+            <img id="holder-zone" src="image/holder.png" alt="holder" />
+            <img id="pencils-zone" src="image/pencils.png" alt="pencils" />
+            <img src="image/screen.png" alt="screen" />
+            <img id="basket-zone" src="image/basket.png" alt="basket" />
+            <img id="backpack-zone" src="image/backpack.png" alt="backpack" />
+          </section>
+          <section id="desk"></section>
+        </section>
+        <section id="trash">
+          <img id="trash-zone" src="image/trash.png" alt="trash" />
+        </section>
+      </section>
+      <dialog id="back-modal">
+        <h4>Game Over !</h4>
+        <button id="back-entry">Back</button>
+      </dialog>
+    </main>
+  </body>
+</html>

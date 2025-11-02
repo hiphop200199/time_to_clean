@@ -1,0 +1,155 @@
+$light: #fff8e8;
+$blue: #a7cfe8;
+$darkBlue: #549ac5;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#entry {
+  width: 100%;
+  height: 100dvh;
+  background-color: $light;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  h1 {
+    font-size: 50px;
+    color: $darkBlue;
+  }
+  img {
+    display: block;
+    width: 80%;
+    max-width: 640px;
+  }
+  #start {
+    font-size: 24px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 5px;
+    background-color: $blue;
+    color: white;
+    cursor: pointer;
+    border: none;
+    filter: drop-shadow(2px 2px 1px $darkBlue);
+  }
+}
+
+#game {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  background-color: $light;
+  display: flex;
+  #time{
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 46px;
+    font-weight: 700;
+    color: $darkBlue;
+  }
+  #items {
+    width: clamp(750px,75%,1050px);
+    padding-inline-start: 5px;
+    padding-block-start: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    #up {
+        display: flex;
+        align-items: flex-end;
+      img {
+        &[alt="holder"]{
+            width: 15%;
+            max-width: 170px;
+        }
+        &[alt="screen"]{
+            width: 40%;
+            max-width: 380px;
+        }
+        &[alt="basket"]{
+            width: 15%;
+            max-width: 130px;
+        }
+        &[alt="pencils"]{
+            width: 5%;
+            max-width: 50px;
+        }
+        &[alt="backpack"]{
+            width: 25%;
+            max-width: 270px;
+        }
+      }
+    }
+    #desk {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2;
+      max-width: 1000px;
+      background-image: url("image/desk.jpg");
+      background-position: center;
+      background-size: cover;
+    }
+  }
+  #trash {
+    width: clamp(280px,25%,350px);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1;
+    }
+  }
+}
+
+#back-modal{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 250px;
+  border-radius: 10px;
+  border: 3px solid $darkBlue;
+  background-color: $light;
+  &::backdrop{
+    background-color: rgba(0,0,0,0.7);
+  }
+  h4{
+    margin-block-start: 65px;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: $darkBlue;
+  }
+  button{
+    display: block;
+    margin: 50px auto;
+    font-size: 24px;
+    font-weight: 700;
+    color: $light;
+    background-color: $blue;
+    filter: drop-shadow(2px 2px 1px $darkBlue);
+    cursor: pointer;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+}
+
+@keyframes no {
+  33%{
+    rotate: -30deg;
+    scale: 1.2;
+  }
+  67%{
+    rotate: 30deg;
+  }
+}
