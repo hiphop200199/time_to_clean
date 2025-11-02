@@ -1,9 +1,19 @@
 class Round {
-  initialCount = Math.ceil(Math.random() * 10 + 50);
-  timeCount = 60;
+  initialCount = Math.ceil(Math.random() * 10 + 20);
+  timeCount = 30;
   objectArray = [];
   interval = null;
-  constructor(cozyMp3, timeUpSFX, backModal) {
+  isTouch = false;
+  constructor(
+    cozyMP3,
+    boomSFX,
+    popSFX,
+    noSFX,
+    timeUpSFX,
+    backModal,
+    desk,
+    time
+  ) {
     let chartCount = Math.round(Math.random() + 1);
     for (let i = 0; i < chartCount; i++) {
       this.objectArray.push(new Chart());
@@ -71,11 +81,76 @@ class Round {
           ? `calc(${verticalPosition}% - ${this.objectArray[i].height})`
           : verticalPosition + "%";
       object.style.width = this.objectArray[i].width;
+      object.style.height = this.objectArray[i].height;
       object.ondragstart = function (e) {
         e.dataTransfer.setData("text/plain", JSON.stringify(object.dataset));
       };
+      object.ontouchstart = (e) => { 
+      
+        e.preventDefault();
+        object.dataset.originX = object.style.left;
+        object.dataset.originY = object.style.top;
+        this.isTouch = true;
+      };
 
-      basicSetting.desk.appendChild(object);
+      object.ontouchmove = (e) => {
+        e.preventDefault();
+        console.log(e.changedTouches);
+        
+        if (this.isTouch) {
+          object.style.left =
+            e.changedTouches[0].pageX - object.style.width / 2 + "px";
+          object.style.top =
+            e.changedTouches[0].pageY - object.style.height / 2 + "px";
+        }
+      };
+
+      object.ontouchend = (e) => {
+        e.preventDefault();
+
+        let objectX = object.getBoundingClientRect().x;
+        let objectY = object.getBoundingClientRect().y;
+        let target = !this.objectArray[i].placeShouldPut
+          ? null
+          : document.getElementById(this.objectArray[i].placeShouldPut);
+        let targetX = target.getBoundingClientRect().x;
+        let targetY = target.getBoundingClientRect().y;
+
+        if (!target) {
+          object.style.left = object.dataset.originX;
+          object.style.top = object.dataset.originY;
+          cozyMP3.pause();
+          boomSFX.pause();
+          boomSFX.currentTime = 0;
+          boomSFX.play();
+          backModal.showModal();
+          clearInterval(this.interval.interval);
+          this.time.innerText = 0;
+        } else if (
+          target &&
+          Math.abs(targetX - objectX) <= 10 &&
+          Math.abs(targetY - objectY) <= 10
+        ) {
+          object.style.display = "none";
+          object.remove();
+          popSFX.pause();
+          popSFX.currentTime = 0;
+          popSFX.play();
+        } else {
+          object.style.left = object.dataset.originX;
+          object.style.top = object.dataset.originY;
+          object.style.animation = "none";
+          object.style.animation = "no 1 linear  0.7s";
+          noSFX.pause();
+          noSFX.currentTime = 0;
+          noSFX.play();
+          setTimeout(() => {
+            object.style.animation = "none";
+          }, 700);
+        }
+        this.isTouch = false;
+      };
+      desk.appendChild(object);
     }
 
     this.interval = setInterval(() => {
@@ -83,7 +158,7 @@ class Round {
       if (this.timeCount == 0) {
         time.innerText = 0;
         clearInterval(this.interval);
-        cozyMp3.pause();
+        cozyMP3.pause();
         timeUpSFX.pause();
         timeUpSFX.currentTime = 0;
         timeUpSFX.play();

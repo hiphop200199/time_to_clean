@@ -9,7 +9,7 @@ class Pen {
 
 class Folder {
   width = "50px";
-  height = "100px";
+  height = "60px";
   image = "folder";
   shouldKeepOnDesk = false;
   placeShouldPut = "holder-zone";
