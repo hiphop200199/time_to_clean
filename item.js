@@ -1,5 +1,5 @@
 class Pen {
-  width = "50px";
+  width = "40px";
   height = "50px";
   image = "pen";
   shouldKeepOnDesk = false;
@@ -8,7 +8,7 @@ class Pen {
 }
 
 class Folder {
-  width = "50px";
+  width = "40px";
   height = "60px";
   image = "folder";
   shouldKeepOnDesk = false;
@@ -17,7 +17,7 @@ class Folder {
 }
 
 class Wallet {
-  width = "50px";
+  width = "40px";
   height = "35px";
   image = "wallet";
   shouldKeepOnDesk = false;
@@ -26,7 +26,7 @@ class Wallet {
 }
 
 class Candy {
-  width = "50px";
+  width = "40px";
   height = "25px";
   image = "candy";
   shouldKeepOnDesk = false;
@@ -35,7 +35,7 @@ class Candy {
 }
 
 class Chart {
-  width = "50px";
+  width = "40px";
   height = "60px";
   image = "chart";
   shouldKeepOnDesk = true;
@@ -43,7 +43,7 @@ class Chart {
 }
 
 class Wastepaper {
-  width = "50px";
+  width = "40px";
   height = "50px";
   image = "wastepaper";
   shouldKeepOnDesk = false;

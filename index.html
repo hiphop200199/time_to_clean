@@ -19,19 +19,16 @@
         <button id="start">Start</button>
       </section>
       <section id="game">
+        <p id="score"></p>
         <p id="time"></p>
-        <section id="items">
-          <section id="up">
-            <img id="holder-zone" src="image/holder.png" alt="holder" />
+        <section id="desk">
+          <section id="up"><img id="holder-zone" src="image/holder.png" alt="holder" />
             <img id="pencils-zone" src="image/pencils.png" alt="pencils" />
             <img src="image/screen.png" alt="screen" />
-            <img id="basket-zone" src="image/basket.png" alt="basket" />
-            <img id="backpack-zone" src="image/backpack.png" alt="backpack" />
-          </section>
-          <section id="desk"></section>
-        </section>
-        <section id="trash">
-          <img id="trash-zone" src="image/trash.png" alt="trash" />
+            <img id="basket-zone" src="image/basket.png" alt="basket" /></section>
+          <section id="down"> <img id="backpack-zone" src="image/backpack.png" alt="backpack" />
+            <img id="trash-zone" src="image/trash.png" alt="trash" /></section>
+           
         </section>
       </section>
       <section id="remind">
@@ -40,6 +37,7 @@
       </section>
       <dialog id="back-modal">
         <h4>Game Over !</h4>
+        <h5>You got <strong id="score-num"></strong>!</h5>
         <button id="back-entry">Back</button>
       </dialog>
     </main>

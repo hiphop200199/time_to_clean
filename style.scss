@@ -45,66 +45,60 @@ $darkBlue: #549ac5;
   height: 100dvh;
   background-color: $light;
   display: flex;
-  #time{
+  #score{
     position: absolute;
     right: 20px;
     top: 15px;
     font-size: 46px;
     font-weight: 700;
     color: $darkBlue;
+    z-index: 1;
   }
-  #items {
-    width: clamp(750px,75%,1050px);
-    padding-inline-start: 5px;
-    padding-block-start: 10px;
+  #time{
+    position: absolute;
+    right: 20px;
+    top: 55px;
+    font-size: 46px;
+    font-weight: 700;
+    color: $darkBlue;
+    z-index: 1;
+  }
+  #desk{
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    #up {
-        display: flex;
-        align-items: flex-end;
-      img {
-        &[alt="holder"]{
-            width: 15%;
-            max-width: 170px;
-        }
-        &[alt="screen"]{
-            width: 40%;
-            max-width: 380px;
-        }
-        &[alt="basket"]{
-            width: 15%;
-            max-width: 130px;
-        }
-        &[alt="pencils"]{
-            width: 5%;
-            max-width: 50px;
-        }
-        &[alt="backpack"]{
-            width: 25%;
-            max-width: 270px;
-        }
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://hiphop200199.github.io/time_to_clean/image/desk.jpg');
+    background-size: cover;
+    background-position: center;
+    #up,#down{
+      width: 100%;
+      display: flex;
+      align-items:end;
+      justify-content: space-evenly;
+      max-height: 200px;
+    }
+    img{
+      max-height: 100%;
+      &[alt="pencils"]{
+        width:clamp(20px,5%,50px);
       }
-    }
-    #desk {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 2;
-      max-width: 1000px;
-      background-image: url("https://hiphop200199.github.io/time_to_clean/image/desk.jpg");
-      background-position: center;
-      background-size: cover;
-    }
-  }
-  #trash {
-    width: clamp(280px,25%,350px);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 1;
+      &[alt="screen"]{
+        width:clamp(250px,40%,350px);
+      }
+      &[alt="backpack"]{
+        width:clamp(200px,20%,250px);
+      }
+      &[alt="basket"],&[alt="holder"]{
+        width:clamp(100px,15%,150px);
+      }
+      &[alt="trash"]{
+        width:clamp(200px,20%,300px);
+      }
     }
   }
 }
@@ -132,12 +126,15 @@ $darkBlue: #549ac5;
   &::backdrop{
     background-color: rgba(0,0,0,0.7);
   }
-  h4{
-    margin-block-start: 65px;
+  h4,h5{
+    margin-block-start: 30px;
     text-align: center;
     font-size: 36px;
     font-weight: 700;
     color: $darkBlue;
+  }
+  h5{
+    font-size: 28px;
   }
   button{
     display: block;
@@ -164,32 +161,32 @@ $darkBlue: #549ac5;
   }
 }
 
-@media screen and (orientation: portrait) and (max-width:768px) {
+@media screen and (orientation: portrait) and (max-width:576px) {
   #entry,#game{
     display: none;
   }
   #remind{
     display: flex;
     #wide{
-      display: block;
+      display: none;
     }
     #phone{
-      display: none;
+      display: block;
     }
   }
 }
 
-@media screen and (orientation: portrait) and (min-width:577px) and (max-width:576px) {
+@media screen and (orientation: portrait) and (min-width:577px) and (max-width:768px) {
   #entry,#game{
     display: none;
   }
   #remind{
     display: flex;
     #wide{
-      display: none;
+      display: block;
     }
     #phone{
-      display: block;
+      display: none;
     }
   }
 }
@@ -203,19 +200,23 @@ $darkBlue: #549ac5;
 }
 
  #game{
-    #items{
-      width: 75%;
-      padding-block-end: 10px;
-      #up{
-        height: 35%;
-        img{
-          max-height: 100%;
-        }
+   #desk{
+    #up,#down{
+      max-height: 50px;
+      img[alt="pencils"]{
+        width: 30px;
       }
-      #desk{
-        height: 65%;
+      img[alt="holder"],img[alt="basket"]{
+        width: 50px;
+      }
+      img[alt="screen"]{
+        width: 150px;
+      }
+      img[alt="backpack"],img[alt="trash"]{
+        width: 80px;
       }
     }
+   }
   }
    
 }

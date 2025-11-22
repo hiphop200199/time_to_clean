@@ -1,6 +1,7 @@
 class Round {
-  initialCount = Math.ceil(Math.random() * 10 + 20);
+  initialCount = Math.ceil(Math.random() * 10 + 15);
   timeCount = 30;
+  totalScore = 0;
   objectArray = [];
   interval = null;
   isTouch = false;
@@ -12,9 +13,11 @@ class Round {
     timeUpSFX,
     backModal,
     desk,
-    time
+    time,
+    score,
+    scoreNum
   ) {
-    let chartCount = Math.round(Math.random() + 1);
+    let chartCount = Math.round(Math.random() *2);
     for (let i = 0; i < chartCount; i++) {
       this.objectArray.push(new Chart());
     }
@@ -37,6 +40,7 @@ class Round {
 
     for (let i = 0; i < this.objectArray.length; i++) {
       let object = document.createElement("img");
+      object.classList.add('item');
       object.src = "image/" + this.objectArray[i].image + ".png";
       let id;
       switch (this.objectArray[i].placeShouldPut) {
@@ -70,8 +74,8 @@ class Round {
         : this.objectArray[i].putWrongPlaceSound;
       object.draggable = true;
       object.style.position = "absolute";
-      let horizontalPosition = Math.round(Math.random() * 95);
-      let verticalPosition = Math.round(Math.random() * 85);
+      let horizontalPosition = Math.round(Math.random() * 70);
+      let verticalPosition = Math.round(Math.random() * 60+15);
       object.style.left =
         horizontalPosition >= 80
           ? `calc(${horizontalPosition}% - 50px)`
@@ -85,57 +89,60 @@ class Round {
       object.ondragstart = function (e) {
         e.dataTransfer.setData("text/plain", JSON.stringify(object.dataset));
       };
-      object.ontouchstart = (e) => { 
-      
-        e.preventDefault();
+      object.ontouchstart = (e) => {
+        if (e.cancelable) e.preventDefault();
         object.dataset.originX = object.style.left;
         object.dataset.originY = object.style.top;
+
         this.isTouch = true;
       };
 
       object.ontouchmove = (e) => {
-        e.preventDefault();
-        console.log(e.changedTouches);
-        
+        if (e.cancelable) e.preventDefault();
+
+        let w = object.getBoundingClientRect().width;
+        let h = object.getBoundingClientRect().height;
+
         if (this.isTouch) {
-          object.style.left =
-            e.changedTouches[0].pageX - object.style.width / 2 + "px";
-          object.style.top =
-            e.changedTouches[0].pageY - object.style.height / 2 + "px";
+          object.style.left = e.changedTouches[0].pageX - w / 2 + "px";
+          object.style.top = e.changedTouches[0].pageY - h / 2 + "px";
         }
       };
 
       object.ontouchend = (e) => {
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
 
         let objectX = object.getBoundingClientRect().x;
         let objectY = object.getBoundingClientRect().y;
         let target = !this.objectArray[i].placeShouldPut
           ? null
           : document.getElementById(this.objectArray[i].placeShouldPut);
-        let targetX = target.getBoundingClientRect().x;
-        let targetY = target.getBoundingClientRect().y;
+        let targetX = target ? target.getBoundingClientRect().x : null;
+        let targetY = target ? target.getBoundingClientRect().y : null;
 
         if (!target) {
           object.style.left = object.dataset.originX;
           object.style.top = object.dataset.originY;
           cozyMP3.pause();
+          clearInterval(this.interval);
+          time.innerText = 0;
           boomSFX.pause();
           boomSFX.currentTime = 0;
           boomSFX.play();
+          scoreNum.innerText = this.totalScore;
           backModal.showModal();
-          clearInterval(this.interval.interval);
-          this.time.innerText = 0;
         } else if (
           target &&
-          Math.abs(targetX - objectX) <= 10 &&
-          Math.abs(targetY - objectY) <= 10
+          Math.abs(targetX - objectX) <= 30 &&
+          Math.abs(targetY - objectY) <= 30
         ) {
           object.style.display = "none";
           object.remove();
           popSFX.pause();
           popSFX.currentTime = 0;
           popSFX.play();
+          this.totalScore++;
+          score.innerText = this.totalScore;
         } else {
           object.style.left = object.dataset.originX;
           object.style.top = object.dataset.originY;
@@ -155,6 +162,7 @@ class Round {
 
     this.interval = setInterval(() => {
       this.timeCount--;
+      let nodeCount = document.querySelectorAll('.item').length
       if (this.timeCount == 0) {
         time.innerText = 0;
         clearInterval(this.interval);
@@ -162,6 +170,16 @@ class Round {
         timeUpSFX.pause();
         timeUpSFX.currentTime = 0;
         timeUpSFX.play();
+        scoreNum.innerText = this.totalScore;
+        backModal.showModal();
+      } else if (!nodeCount) {
+        time.innerText = 0;
+        clearInterval(this.interval);
+        cozyMP3.pause();
+        timeUpSFX.pause();
+        timeUpSFX.currentTime = 0;
+        timeUpSFX.play();
+        scoreNum.innerText = this.totalScore;
         backModal.showModal();
       } else {
         time.innerText = this.timeCount;
@@ -170,5 +188,11 @@ class Round {
   }
   getInterval() {
     return { interval: this.interval };
+  }
+  getTotalScore() {
+    return {totalScore:this.totalScore}
+  }
+  setTotalScore(num){
+    this.totalScore = num
   }
 }
