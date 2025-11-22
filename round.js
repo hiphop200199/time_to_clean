@@ -133,8 +133,8 @@ class Round {
           backModal.showModal();
         } else if (
           target &&
-          Math.abs(targetX - objectX) <= 30 &&
-          Math.abs(targetY - objectY) <= 30
+          Math.abs(targetX - objectX) <= 50 &&
+          Math.abs(targetY - objectY) <= 50
         ) {
           object.style.display = "none";
           object.remove();
