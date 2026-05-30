@@ -1,28 +1,21 @@
 class Round {
   initialCount = Math.ceil(Math.random() * 10 + 15);
-  timeCount = 30;
   totalScore = 0;
   objectArray = [];
   interval = null;
   isTouch = false;
   constructor(
     cozyMP3,
-    boomSFX,
     popSFX,
     noSFX,
     timeUpSFX,
     backModal,
     desk,
-    time,
     score,
     scoreNum
   ) {
-    let chartCount = Math.round(Math.random() *2);
-    for (let i = 0; i < chartCount; i++) {
-      this.objectArray.push(new Chart());
-    }
-    this.initialCount -= chartCount;
-
+   
+    //依照起始數量產生物件
     for (let i = 0; i < this.initialCount; i++) {
       let randomNum = Math.random();
       if (randomNum < 0.2) {
@@ -68,7 +61,6 @@ class Round {
       object.dataset.place = this.objectArray[i].placeShouldPut
         ? this.objectArray[i].placeShouldPut
         : "";
-      object.dataset.desk = this.objectArray[i].shouldKeepOnDesk;
       object.dataset.sound = this.objectArray[i].putCorrectPlaceSound
         ? this.objectArray[i].putCorrectPlaceSound
         : this.objectArray[i].putWrongPlaceSound;
@@ -120,18 +112,7 @@ class Round {
         let targetX = target ? target.getBoundingClientRect().x : null;
         let targetY = target ? target.getBoundingClientRect().y : null;
 
-        if (!target) {
-          object.style.left = object.dataset.originX;
-          object.style.top = object.dataset.originY;
-          cozyMP3.pause();
-          clearInterval(this.interval);
-          time.innerText = 0;
-          boomSFX.pause();
-          boomSFX.currentTime = 0;
-          boomSFX.play();
-          scoreNum.innerText = this.totalScore;
-          backModal.showModal();
-        } else if (
+        if (
           target &&
           Math.abs(targetX - objectX) <= 50 &&
           Math.abs(targetY - objectY) <= 50
@@ -160,11 +141,10 @@ class Round {
       desk.appendChild(object);
     }
 
+    //每秒檢查是否還有物件在桌上，沒有的話就結束遊戲
     this.interval = setInterval(() => {
-      this.timeCount--;
       let nodeCount = document.querySelectorAll('.item').length
-      if (this.timeCount == 0) {
-        time.innerText = 0;
+      if (!nodeCount) {
         clearInterval(this.interval);
         cozyMP3.pause();
         timeUpSFX.pause();
@@ -172,17 +152,6 @@ class Round {
         timeUpSFX.play();
         scoreNum.innerText = this.totalScore;
         backModal.showModal();
-      } else if (!nodeCount) {
-        time.innerText = 0;
-        clearInterval(this.interval);
-        cozyMP3.pause();
-        timeUpSFX.pause();
-        timeUpSFX.currentTime = 0;
-        timeUpSFX.play();
-        scoreNum.innerText = this.totalScore;
-        backModal.showModal();
-      } else {
-        time.innerText = this.timeCount;
       }
     }, 1000);
   }
