@@ -15,9 +15,7 @@ class General {
   backpackZone;
   entryButton;
   backButton;
-  score;
-  totalScore;
-  scoreNum;
+  restartButton;
   interval;
   round;
   init() {
@@ -37,12 +35,10 @@ class General {
     this.backpackZone = document.getElementById("backpack-zone");
     this.entryButton = document.getElementById("start");
     this.backButton = document.getElementById("back-entry");
-    this.score = document.getElementById("score");
-    this.scoreNum = document.getElementById("score-num");
+    this.restartButton = document.getElementById("restart");
     this.interval = null;
     this.round = null;
-    this.totalScore = 0;
-
+   
     this.trashZone.addEventListener("dragover", (e) => e.preventDefault());
     this.holderZone.addEventListener("dragover", (e) => e.preventDefault());
     this.pencilsZone.addEventListener("dragover", (e) => e.preventDefault());
@@ -71,8 +67,6 @@ class General {
       this.dingSFX.play();
       setTimeout(() => {
         this.entry.style.display = "none";
-        this.totalScore = 0;
-        this.score.innerText = 0;
         this.round = null;
         this.round = new Round(
           this.cozyMP3,
@@ -81,16 +75,18 @@ class General {
           this.timeUpSFX,
           this.backModal,
           this.desk,
-          this.score,
-          this.scoreNum
         );
+        this.backModal.close();
         this.interval = null;
         this.interval = this.round.getInterval();
-        this.totalScore = this.round.getTotalScore();
         this.cozyMP3.pause();
         this.cozyMP3.currentTime = 0;
         this.cozyMP3.play();
       }, 2000);
+    });
+
+    this.restartButton.addEventListener("click", () => {
+      this.entryButton.click();
     });
 
     this.backButton.addEventListener("click", () => {
@@ -109,14 +105,10 @@ class General {
    if (data.place == place) {
       let object = document.getElementById(data.id);
       object.style.display = "none";
-      e.target.appendChild(object);
+      object.remove();
       this.popSFX.pause();
       this.popSFX.currentTime = 0;
       this.popSFX.play();
-      this.totalScore.totalScore++;
-      this.round.setTotalScore(this.totalScore.totalScore);
-      this.score.innerText = this.totalScore.totalScore;
-      this.scoreNum.innerText = this.totalScore.totalScore;
     } else {
       let object = document.getElementById(data.id);
       object.style.animation = "no 1 linear  0.7s";

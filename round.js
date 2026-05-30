@@ -1,6 +1,5 @@
 class Round {
   initialCount = Math.ceil(Math.random() * 10 + 15);
-  totalScore = 0;
   objectArray = [];
   interval = null;
   isTouch = false;
@@ -11,8 +10,6 @@ class Round {
     timeUpSFX,
     backModal,
     desk,
-    score,
-    scoreNum
   ) {
    
     //依照起始數量產生物件
@@ -52,18 +49,11 @@ class Round {
         case "trash-zone":
           id = "was-" + i;
           break;
-        default:
-          id = "ch-" + i;
-          break;
       }
       object.id = id;
       object.dataset.id = id;
-      object.dataset.place = this.objectArray[i].placeShouldPut
-        ? this.objectArray[i].placeShouldPut
-        : "";
+      object.dataset.place = this.objectArray[i].placeShouldPut;
       object.dataset.sound = this.objectArray[i].putCorrectPlaceSound
-        ? this.objectArray[i].putCorrectPlaceSound
-        : this.objectArray[i].putWrongPlaceSound;
       object.draggable = true;
       object.style.position = "absolute";
       let horizontalPosition = Math.round(Math.random() * 70);
@@ -106,14 +96,11 @@ class Round {
 
         let objectX = object.getBoundingClientRect().x;
         let objectY = object.getBoundingClientRect().y;
-        let target = !this.objectArray[i].placeShouldPut
-          ? null
-          : document.getElementById(this.objectArray[i].placeShouldPut);
-        let targetX = target ? target.getBoundingClientRect().x : null;
-        let targetY = target ? target.getBoundingClientRect().y : null;
+        let target = document.getElementById(this.objectArray[i].placeShouldPut);
+        let targetX =  target.getBoundingClientRect().x ;
+        let targetY =  target.getBoundingClientRect().y ;
 
         if (
-          target &&
           Math.abs(targetX - objectX) <= 50 &&
           Math.abs(targetY - objectY) <= 50
         ) {
@@ -122,8 +109,6 @@ class Round {
           popSFX.pause();
           popSFX.currentTime = 0;
           popSFX.play();
-          this.totalScore++;
-          score.innerText = this.totalScore;
         } else {
           object.style.left = object.dataset.originX;
           object.style.top = object.dataset.originY;
@@ -144,24 +129,18 @@ class Round {
     //每秒檢查是否還有物件在桌上，沒有的話就結束遊戲
     this.interval = setInterval(() => {
       let nodeCount = document.querySelectorAll('.item').length
+     
       if (!nodeCount) {
         clearInterval(this.interval);
         cozyMP3.pause();
         timeUpSFX.pause();
         timeUpSFX.currentTime = 0;
         timeUpSFX.play();
-        scoreNum.innerText = this.totalScore;
         backModal.showModal();
       }
     }, 1000);
   }
   getInterval() {
     return { interval: this.interval };
-  }
-  getTotalScore() {
-    return {totalScore:this.totalScore}
-  }
-  setTotalScore(num){
-    this.totalScore = num
   }
 }
